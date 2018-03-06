@@ -125,6 +125,7 @@ void usage(void)
 	version();
 
 	printf("-t	show a timestamp of when the item was processed\n");
+	printf("-T	show item's title\n");
 	printf("-l	show item's link\n");
 	printf("-e	show item's enclosure URL\n");
 	printf("-d	show item's description\n");
@@ -163,7 +164,7 @@ int main(int argc, char *argv[])
 	char *proxy = NULL, *proxy_auth = NULL;
 	int sw = 0;
 	int verbose = 0;
-	char show_timestamp = 0, show_link = 0, show_enclosure_url = 0, show_description = 0, show_pubdate = 0, show_author = 0, show_comments = 0, show_guid = 0;
+	char show_timestamp = 0, show_title = 0, show_link = 0, show_enclosure_url = 0, show_description = 0, show_pubdate = 0, show_author = 0, show_comments = 0, show_guid = 0;
 	char strip_html = 0, no_error_exit = 0;
 	char one_shot = 0;
 	char no_heading = 0;
@@ -180,7 +181,7 @@ int main(int argc, char *argv[])
 
 	memset(&mot, 0x00, sizeof(mot));
 
-	while((sw = getopt(argc, argv, "A:Z:1b:PHztledrpacgu:Ni:n:x:y:vVh")) != -1)
+	while((sw = getopt(argc, argv, "A:Z:1b:PHztTledrpacgu:Ni:n:x:y:vVh")) != -1)
 	{
 		switch(sw)
 		{
@@ -264,6 +265,10 @@ int main(int argc, char *argv[])
 			case 't':
 				show_timestamp = 1;
 				break;
+
+      case 'T':
+        show_title = 1;
+        break;
 
 			case 'l':
 				show_link = 1;
@@ -515,7 +520,7 @@ int main(int argc, char *argv[])
 				if (heading)
 					printf(" %s", heading);
 
-				if (item_cur -> title != NULL)
+				if (show_title && item_cur -> title != NULL)
 				{
 					char *title = my_convert(converter, item_cur -> title);
 
